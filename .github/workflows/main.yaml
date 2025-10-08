@@ -1,0 +1,25 @@
+name: Deploy to Surge.sh
+
+on:
+  push:
+    branches:
+      - main  # Se ejecuta cada vez que haces push al main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Surge
+        run: npm install --global surge
+
+      - name: Deploy to Surge
+        run: surge ./ https://PaginaDePresentacion-ci.surge.sh --token ${{ secrets.SURGE_TOKEN }}
